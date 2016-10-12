@@ -43,36 +43,33 @@ Nous avons donc effectué les connections comme présentées à la figure \ref{t
 
 \section{Description des étapes effectuées}
 
-\section{Historique des commandes utilisées}
-
-\noindent Connection au routeur :
+\noindent Premièrement, on se connecte au routeur numéro 4 :
 \begin{lstlisting}[language=bash]
  telnet 192.168.254.144 9004
 \end{lstlisting}
 
-\noindent configuration:
+\noindent Ensuite, on lance le mode configuration:
 \begin{lstlisting}[language=bash]
  enable # acces to more privileges
  conf t # configuration mode; press ctrl z to quit 
 \end{lstlisting}
 
-\noindent Connection au routeur :
 \begin{lstlisting}[language=bash]
  sh int # up or down informations
  sh ip route # show interface route ip attach with the network
 \end{lstlisting}
 
-\textit{sh int} nous indique que la connexion est établie mais qu'aucune interface n'est encore créée (parce que pas encore configurée) et que celui qui est connecté au $5$ est up (car notre routeur est connecté au $5^{eme}$).
+\textit{sh int} Nous indique que la connexion est établie mais qu'aucune interface n'est encore créée (parce que pas encore configurée) et que celui qui est connecté au $5$ est up (car notre routeur est connecté au $5^{eme}$).
 
-\noindent Ouvrir les ports ethernets (être en \textbf{conf t})
+\noindent On ouvre les ports ethernets (en étant en \textbf{conf t})
 \begin{lstlisting}[language=bash]
 int ethernet 0/0 # we acces to ethernet 0/0 port
 no shutdown # up the ethernet port
 \end{lstlisting}
 
-On connecte maintenant le rooter au switch sur l'interface ethernet 1/1. On attribue maintenant une adresse à l'interface du routeur.
+On connecte maintenant le routeur au switch sur l'interface ethernet 1/1. On attribue maintenant une adresse à l'interface du routeur.
 
-\noindent Attribuer une adresse IP à l'interface.
+\noindent On attribue une adresse IP à l'interface.
 \begin{lstlisting}[language=bash]
 conf t
 int ethernet 1/1
@@ -82,7 +79,9 @@ ip address 192.168.104.002 255.255.255.248
 Le 1er bit réservé (1 pour le broadcast 0 pour la machine). On a 4 ports de disponibles.\\
 On configure par la suite toutes les interfaces de cette façon.
 
-\noindent Configurer le DHCP
+\subsection{Le DHCP}
+
+\noindent On configure le DHCP
 \begin{lstlisting}[language=bash]
 ip dhcp pool giorgio
 network 192.168.104.0 255.255.255.248
@@ -111,6 +110,8 @@ show ip DHCP pool
 int ethernet 0/1
 ip adress 192.168.142.2 255.255.255.248
 \end{lstlisting}
+
+\subsection{OSPF}
 
 \noindent Configuration OSPF
 \begin{lstlisting}[language=bash]
