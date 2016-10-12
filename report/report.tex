@@ -16,11 +16,34 @@
 
 L'objectif de cette séance de travaux pratiques est de se re-familiariser avec les concepts de base des réseaux informatiques comme le fonctionnement de certains services tels DHCP et DNS. Un des buts désirés est aussi d'appréhender de nouveaux concepts plus élaborés comme les protocoles de routage. A cet effet, nous travaillerons avec un ensemble de routeurs CISCO que nous connecterons ensemble selon une topologie bien précise.  
 
-\section{Description des étapes effectuées}
-
 \section{Topologie du réseau mis en place}
 
-\section{Historique des commandes utilisés}
+Nous disposons pour ce laboratoire du routeur numéro 4, illustré sur la figure \ref{topol} :
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.5]{topologie.png}
+\caption{Topologie du réseau autour du routeur 4}
+\label{topol}
+\end{center}
+\end{figure}
+
+Nous pouvons remarquer que ce dernier est connecté via ethernet aux routeurs 1,2 et 5 et que le passage par notre routeur est nécessaire pour que la connectivité entre les trois autres routeurs soient établie.
+
+Nous disposions, pour réaliser notre partie de la topologie, d'un routeur CISCO modèle 2600. Ce dernier comporte 4 ports ethernets. Nous avions également à notre disposition 5 ports ethernets d'un switch afin de pouvoir connecter nos machines au sous-réseau.\\
+Nous avons donc effectué les connections comme présentées à la figure \ref{topoint}. Nous avons donc relié le port 1/1 du routeur au switch et les autres ports restants aux différents routeurs faisant partie du sous-réseau.  
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.2]{tmp.jpg}
+\caption{Sous-réseau attribué au routeur 4}
+\label{topoint}
+\end{center}
+\end{figure}
+
+\section{Description des étapes effectuées}
+
+\section{Historique des commandes utilisées}
 
 \noindent Connection au routeur :
 \begin{lstlisting}[language=bash]
