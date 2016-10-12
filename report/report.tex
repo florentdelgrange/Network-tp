@@ -11,7 +11,18 @@
 \title{Réseaux II : TP 1}
 \begin{document}
 \maketitle
-\noindent Connection au router :
+
+\section{Objectif}
+
+L'objectif de cette séance de travaux pratiques est de se re-familiariser avec les concepts de base des réseaux informatiques comme le fonctionnement de certains services tels DHCP et DNS. Un des buts désirés est aussi d'appréhender de nouveaux concepts plus élaborés comme les protocoles de routage. A cet effet, nous travaillerons avec un ensemble de routeurs CISCO que nous connecterons ensemble selon une topologie bien précise.  
+
+\section{Description des étapes effectuées}
+
+\section{Topologie du réseau mis en place}
+
+\section{Historique des commandes utilisés}
+
+\noindent Connection au routeur :
 \begin{lstlisting}[language=bash]
  telnet 192.168.254.144 9004
 \end{lstlisting}
@@ -22,13 +33,13 @@
  conf t # configuration mode; press ctrl z to quit 
 \end{lstlisting}
 
-\noindent Connection au router :
+\noindent Connection au routeur :
 \begin{lstlisting}[language=bash]
  sh int # up or down informations
  sh ip route # show interface route ip attach with the network
 \end{lstlisting}
 
-\textit{sh int} nous indique que la connexion est établie mais qu'aucune interface n'est encore créée (parce que pas encore configurée) et que celui qui est connecté au $5$ est up (car notre router est connecté au $5^{eme}$).
+\textit{sh int} nous indique que la connexion est établie mais qu'aucune interface n'est encore créée (parce que pas encore configurée) et que celui qui est connecté au $5$ est up (car notre routeur est connecté au $5^{eme}$).
 
 \noindent Ouvrir les ports ethernets (être en \textbf{conf t})
 \begin{lstlisting}[language=bash]
@@ -36,7 +47,7 @@ int ethernet 0/0 # we acces to ethernet 0/0 port
 no shutdown # up the ethernet port
 \end{lstlisting}
 
-On connecte maintenant le rooter au switch sur l'interface ethernet 1/1. On attribue maintenant une adresse à l'interface du router.
+On connecte maintenant le rooter au switch sur l'interface ethernet 1/1. On attribue maintenant une adresse à l'interface du routeur.
 
 \noindent Attribuer une adresse IP à l'interface.
 \begin{lstlisting}[language=bash]
@@ -57,7 +68,7 @@ default-router 192.168.104.0
 lease 5 0 0
 \end{lstlisting}
 
-En tentant de connecter un PC, celui-ci obtient bien une adresse depuis le router, on peut la récupérer grace à la commande \textbf{ifconfig} : 192.168.104.7 \\
+En tentant de connecter un PC, celui-ci obtient bien une adresse depuis le routeur, on peut la récupérer grace à la commande \textbf{ifconfig} : 192.168.104.7 \\
 Si on ping le routeur, celui-ci répond également positivement avec 
 
 \noindent ping
