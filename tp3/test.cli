@@ -1,0 +1,20 @@
+net add node 1.0.0.1
+net add node 1.0.0.2
+net add node 1.0.0.3
+
+net add node 2.0.0.1
+net add node 2.0.0.2
+net add node 2.0.0.3
+
+net add link 1.0.0.1 1.0.0.2
+net add link 1.0.0.1 1.0.0.3
+net add link 1.0.0.2 1.0.0.3
+
+net add link 2.0.0.1 2.0.0.2
+net add link 2.0.0.1 2.0.0.3
+net add link 2.0.0.2 2.0.0.3
+
+net add link 1.0.0.2 2.0.0.1
+
+net add link 1.0.0.3 2.0.0.3
+
