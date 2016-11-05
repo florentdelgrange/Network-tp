@@ -18,3 +18,13 @@ net add link 1.0.0.2 2.0.0.1
 
 net add link 1.0.0.3 2.0.0.3
 
+net add domain 200 igp
+net node 1.0.0.1 domain 200 
+net node 1.0.0.2 domain 200
+net node 1.0.0.3 domain 200
+
+net add domain 300 igp
+net node 2.0.0.1 domain 300
+net node 2.0.0.2 domain 300
+net node 2.0.0.3 domain 300
+
