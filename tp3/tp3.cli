@@ -52,6 +52,12 @@ bgp router 1.0.0.4
 	peer 1.0.0.3 up
 	exit
 
+      #prefixes atteignables 
+bgp router 1.0.0.1 add network 1.0.0.0/8
+bgp router 1.0.0.2 add network 1.0.0.0/8
+bgp router 1.0.0.3 add network 1.0.0.0/8
+bgp router 1.0.0.4 add network 1.0.0.0/8
+
 #Ajout des noeuds Spring
 net add node 2.0.0.1
 net add node 2.0.0.2
@@ -105,6 +111,11 @@ bgp router 2.0.0.4
 	add peer 2 2.0.0.3
 	peer 2.0.0.3 up
 	exit
+
+bgp router 2.0.0.1 add network 2.0.0.0/8
+bgp router 2.0.0.2 add network 2.0.0.0/8
+bgp router 2.0.0.3 add network 2.0.0.0/8
+bgp router 2.0.0.4 add network 2.0.0.0/8
 
 #Ajout des noeuds geant
 net add node 4.0.0.1
@@ -166,12 +177,19 @@ bgp router 4.0.0.4
 	peer 4.0.0.3 up
 	exit
 
+bgp router 4.0.0.1 add network 4.0.0.0/24
+bgp router 4.0.0.2 add network 4.0.0.0/24
+bgp router 4.0.0.3 add network 4.0.0.0/24
+bgp router 4.0.0.4 add network 4.0.0.0/24
+
 #Ajout des noeuds iCompany
 net add node 2.1.0.1
 net add domain 200 igp
 net node 2.1.0.1 domain 200
 
 bgp add router 200 2.1.0.1
+
+bgp router 2.1.0.1 add network 2.1/16
 
 #Ajout des noeuds abilene
 net add node 3.0.0.1
@@ -215,6 +233,10 @@ bgp router 3.0.0.3
 	peer 3.0.0.2 up
 	exit
 
+bgp router 3.0.0.1 add network 3.0.0.0/24
+bgp router 3.0.0.2 add network 3.0.0.0/24
+bgp router 3.0.0.3 add network 3.0.0.0/24
+
 #UCLA 
 net add node 3.1.0.1
 net add node 3.1.0.2
@@ -239,6 +261,12 @@ bgp router 3.1.0.2
 	peer 3.1.0.1 up
 	exit
 
+#TODO annoncer le deuxième prefixe atteignable ici ?
+bgp router 3.1.0.1 add network 3.1.0.0/16
+bgp router 3.1.0.2 add network 3.1.0.0/16
+bgp router 3.1.0.1 add network 2.2.1.0/24
+bgp router 3.1.0.2 add network 2.2.1.0/24
+
 #CERN
 net add node 4.200.0.1
 
@@ -246,6 +274,10 @@ net add domain 201 igp
 net node 4.200.0.1 domain 201
 
 bgp add router 201 4.200.0.1
+
+#TODO same
+bgp router 4.200.0.1 add network 4.200.0.0/16
+bgp router 4.200.0.1 add network 3.200.0.0/16
 
 #BELNET
 net add node 4.1.0.1
@@ -271,6 +303,12 @@ bgp router 4.1.0.2
 	peer 4.1.0.1 up
 	exit
 
+#TODO same
+bgp router 4.1.0.1 add network 4.1.0.0/24
+bgp router 4.1.0.2 add network 4.1.0.0/24
+bgp router 4.1.0.1 add network 1.1.0.0/24
+bgp router 4.1.0.2 add network 1.1.0.0/24
+
 #UCL
 net add node 130.104.0.1
 net add node 130.104.0.2
@@ -295,6 +333,9 @@ bgp router 130.104.0.2
 	peer 130.104.0.1 up
 	exit
 
+bgp router 130.104.0.1 add network 130.104.0.0/16
+bgp router 130.104.0.2 add network 130.104.0.0/16
+
 #ULG
 net add node 139.165.0.1
 net add node 139.165.0.2
@@ -305,6 +346,9 @@ net node 139.165.0.2 domain 65534
 
 bgp add router 65534 139.165.0.1
 bgp add router 65534 139.165.0.2
+
+bgp router 139.165.0.1 add network 139.165.0.0/16
+bgp router 139.165.0.2 add network 139.165.0.0/16
 
 #Liens entre domaines routes statiques
 
