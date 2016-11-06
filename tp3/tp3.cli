@@ -15,6 +15,11 @@ net node 1.0.0.2 domain 1
 net node 1.0.0.3 domain 1
 net node 1.0.0.4 domain 1
 
+net link 1.0.0.1 1.0.0.2 igp-weight --bidir 1
+net link 1.0.0.1 1.0.0.3 igp-weight --bidir 10
+net link 1.0.0.2 1.0.0.4 igp-weight --bidir 10
+net link 1.0.0.3 1.0.0.4 igp-weight --bidir 1
+
 #Ajout des noeuds Spring
 net add node 2.0.0.1
 net add node 2.0.0.2
@@ -31,6 +36,11 @@ net node 2.0.0.1 domain
 net node 2.0.0.2 domain 2
 net node 2.0.0.3 domain 2
 net node 2.0.0.4 domain 2
+
+net link 2.0.0.1 2.0.0.2 igp-weight --bidir 1
+net link 2.0.0.1 2.0.0.3 igp-weight --bidir 10
+net link 2.0.0.2 2.0.0.4 igp-weight --bidir 10
+net link 2.0.0.3 2.0.0.4 igp-weight --bidir 1
 
 #Ajout des noeuds geant
 net add node 4.0.0.1
@@ -49,6 +59,12 @@ net node 4.0.0.1 domain 20965
 net node 4.0.0.2 domain 20965
 net node 4.0.0.3 domain 20965
 net node 4.0.0.4 domain 20965
+
+net link 4.0.0.1 4.0.0.2 igp-weight --bidir 10
+net link 4.0.0.1 4.0.0.3 igp-weight --bidir 5
+net link 4.0.0.2 4.0.0.4 igp-weight --bidir 5
+net link 4.0.0.3 4.0.0.4 igp-weight --bidir 10
+net link 4.0.0.1 4.0.0.4 igp-weight --bidir 12
 
 #Ajout des noeuds iCompany
 net add node 2.1.0.1
@@ -69,6 +85,10 @@ net node 3.0.0.1 domain 11537
 net node 3.0.0.2 domain 11537
 net node 3.0.0.3 domain 11537
 
+net link 3.0.0.1 3.0.0.2 igp-weight --bidir 40
+net link 3.0.0.1 3.0.0.3 igp-weight --bidir 20
+net link 3.0.0.2 3.0.0.3 igp-weight --bidir 50
+
 #UCLA 
 net add node 3.1.0.1
 net add node 3.1.0.2
@@ -78,6 +98,8 @@ net add link 3.1.0.1 3.1.0.2
 net add domain 52 igp
 net node 3.1.0.1 domain 52
 net node 3.1.0.2 domain 52
+
+net link 3.1.0.1 3.1.0.2 igp-weight --bidir 1
 
 #CERN
 net add node 4.200.0.1
@@ -95,6 +117,8 @@ net add domain 2611 igp
 net node 4.1.0.1 domain 2611
 net node 4.1.0.2 domain 2611
 
+net link 4.1.0.1 4.1.0.2 igp-weight --bidir 1
+
 #UCL
 net add node 130.104.0.1
 net add node 130.104.0.2
@@ -105,6 +129,8 @@ net add domain 65535 igp
 net node 130.104.0.1 domain 65535
 net node 130.104.0.2 domain 65535
 
+net link 130.104.0.1 130.104.0.2 igp-weight --bidir 1
+
 #ULG
 net add node 139.165.0.1
 net add node 139.165.0.2
@@ -114,7 +140,7 @@ net node 139.165.0.1 domain 65534
 net node 139.165.0.2 domain 65534
 
 
-#Liens entre domaines + poids
+#Liens entre domaines routes statiques
 
 # big => spring
 net add link 1.0.0.1 2.0.0.1
