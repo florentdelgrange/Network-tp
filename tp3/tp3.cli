@@ -211,17 +211,32 @@ net node 4.0.0.3 route add 3.0.0.3/24 -oif=3.0.0.3 50
 #geant belnet 
 net add link 4.0.0.3 4.1.0.1
 net add link 4.0.0.4 4.1.0.2
-#todo
-net node 4.0.0.1 route add 3.0.0.1/24 -oif=3.0.0.1 60
-net node 4.0.0.3 route add 3.0.0.3/24 -oif=3.0.0.3 50
+
+net node 4.0.0.3 route add 4.1.0.1/24 -oif=4.1.0.1 5
+net node 4.0.0.4 route add 4.1.0.2/24 -oif=4.1.0.2 5
+
+net node 4.1.0.1 route add 4.0.0.3/24 -oif=4.0.0.3 5
+net node 4.1.0.2 route add 4.0.0.4/24 -oif=4.0.0.4 5
 
 #belnet UCL
 net add link 4.1.0.1 130.104.0.1
 net add link 4.1.0.2 130.104.0.2
 
+net node 4.1.0.1 route add 130.104.0.1/16 -oif=130.104.0.1 1
+net node 4.1.0.2 route add 130.104.0.2/16 -oif=130.104.0.2 1
+
+net node 130.104.0.1 route add 4.1.0.1/24 -oif=4.1.0.1 1
+net node 130.104.0.2 route add 4.1.0.2/24 -oif=4.1.0.2 1
+
 #belnet ulg 
 net add link 4.1.0.1 139.165.0.1
 net add link 4.1.0.2 139.165.0.2
+
+net node 4.1.0.1 route add 139.165.0.1/16 -oif=139.165.0.1 1
+net node 4.1.0.2 route add 139.165.0.2/16 -oif=139.165.0.2 1
+
+net node 139.165.0.1 route add 4.1.0.1/24 -oif=4.1.0.1 1
+net node 139.165.0.2 route add 4.1.0.2/24 -oif=4.1.0.2 1
 
 
 #On ajoute une des deux addresses et on advertise les deux plus tard
