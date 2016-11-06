@@ -368,6 +368,54 @@ net node 2.0.0.2 route add 1.0.0.2/8 -oif=1.0.0.2 70
 net node 2.0.0.3 route add 1.0.0.3/8 -oif=1.0.0.3 75
 net node 2.0.0.4 route add 1.0.0.4/8 -oif=1.0.0.4 70
 
+bgp router 1.0.0.1
+	add peer 2 2.0.0.1
+	peer 2.0.0.1 next-hop-self
+	peer 2.0.0.1 up
+	exit
+
+bgp router 1.0.0.2
+	add peer 2 2.0.0.2
+	peer 2.0.0.2 next-hop-self
+	peer 2.0.0.2 up
+	exit
+
+bgp router 1.0.0.3
+	add peer 2 2.0.0.3
+	peer 2.0.0.3 next-hop-self
+	peer 2.0.0.3 up
+	exit
+
+bgp router 1.0.0.4
+	add peer 2 2.0.0.4
+	peer 2.0.0.4 next-hop-self
+	peer 2.0.0.4 up
+	exit
+
+bgp router 2.0.0.1
+	add peer 1 1.0.0.1
+	peer 1.0.0.1 next-hop-self
+	peer 1.0.0.1 up
+	exit
+
+bgp router 2.0.0.2
+	add peer 1 1.0.0.2
+	peer 1.0.0.2 next-hop-self
+	peer 1.0.0.2 up
+	exit
+
+bgp router 2.0.0.3
+	add peer 1 1.0.0.3
+	peer 1.0.0.3 next-hop-self
+	peer 1.0.0.3 up
+	exit
+
+bgp router 2.0.0.4
+	add peer 1 1.0.0.4
+	peer 1.0.0.4 next-hop-self
+	peer 1.0.0.4 up
+	exit
+
 #spring icomp
 net add link 2.0.0.1 2.1.0.1
 net add link 2.0.0.2 2.1.0.1
@@ -381,17 +429,72 @@ net node 2.1.0.1 route add 2.0.0.1/8 -oif=2.0.0.1 2
 net node 2.1.0.1 route add 2.0.0.2/8 -oif=2.0.0.2 2
 net node 2.1.0.1 route add 2.0.0.3/8 -oif=2.0.0.3 8
 
+bgp router 2.0.0.1
+	add peer 200 2.1.0.1
+	peer 2.1.0.1 next-hop-self
+	peer 2.1.0.1 up
+	exit
+
+bgp router 2.0.0.2
+	add peer 200 2.1.0.1
+	peer 2.1.0.1 next-hop-self
+	peer 2.1.0.1 up
+	exit
+
+bgp router 2.0.0.3
+	add peer 200 2.1.0.1
+	peer 2.1.0.1 next-hop-self
+	peer 2.1.0.1 up
+	exit
+
+#TODO notation marche ? peut on faire plusieur fois le même routeur ?
+bgp router 2.1.0.1
+	add peer 2 2.0.0.1
+	peer 2.0.0.1 next-hop-self
+	peer 2.0.0.1 up
+	add peer 2 2.0.0.2
+	peer 2.0.0.2 next-hop-self
+	peer 2.0.0.2 up
+	add peer 2 2.0.0.3
+	peer 2.0.0.3 next-hop-self
+	peer 2.0.0.3 up
+	exit
+
 #Spring abilene
 net add link 2.0.0.3 3.0.0.1
 
 net node 2.0.0.3 route add 3.0.0.1/24 -oif=3.0.0.1 1
 net node 3.0.0.1 route add 2.0.0.3/8 -oif=2.0.0.3 1
 
+bgp router 2.0.0.3
+	add peer 11537 3.0.0.1
+	peer 3.0.0.1 next-hop-self
+	peer 3.0.0.1 up
+	exit
+
+bgp router 3.0.0.1
+	add peer 2 2.0.0.3
+	peer 2.0.0.3 next-hop-self
+	peer 2.0.0.3 up
+	exit
+
 #Spring ucla
 net add link 2.0.0.3 3.1.0.1
 
 net node 2.0.0.3 route add 3.1.0.1/16 -oif=3.1.0.1 1
 net node 3.1.0.1 route add 2.0.0.3/8 -oif=2.0.0.3 1
+
+bgp router 2.0.0.3
+	add peer 52 3.1.0.1
+	peer 3.1.0.1 next-hop-self
+	peer 3.1.0.1 up
+	exit
+
+bgp router 3.1.0.1
+	add peer 2 2.0.0.3
+	peer 2.0.0.3 next-hop-self
+	peer 2.0.0.3 up
+	exit
 
 #BigCarrier geant
 net add link 1.0.0.3 4.0.0.1
@@ -406,11 +509,56 @@ net node 4.0.0.2 route add 1.0.0.1/8 -oif=1.0.0.1 1
 net node 4.0.0.1 route add 1.0.0.3/8 -oif=1.0.0.3 1
 net node 4.0.0.1 route add 1.0.0.4/8 -oif=1.0.0.4 1
 
+bgp router 1.0.0.1
+	add peer 20965 4.0.0.2
+	peer 4.0.0.2 next-hop-self
+	peer 4.0.0.2 up
+	exit
+
+bgp router 1.0.0.3
+	add peer 20965 4.0.0.1
+	peer 4.0.0.1 next-hop-self
+	peer 4.0.0.1 up
+	exit
+
+bgp router 1.0.0.4
+	add peer 20965 4.0.0.1
+	peer 4.0.0.1 next-hop-self
+	peer 4.0.0.1 up
+	exit
+
+bgp router 4.0.0.1
+	add peer 1 1.0.0.3
+	peer 1.0.0.3 next-hop-self
+	peer 1.0.0.3 up
+	add peer 1 1.0.0.4
+	peer 1.0.0.4 next-hop-self
+	peer 1.0.0.4 up
+	exit
+
+bgp router 4.0.0.2
+	add peer 1 1.0.0.1
+	peer 1.0.0.1 next-hop-self
+	peer 1.0.0.1 up
+	exit
+
 #BigCarrier belnet
 net add link 1.0.0.2 4.1.0.2
 
 net node 1.0.0.2 route add 4.1.0.2/24 -oif=4.1.0.2 1
 net node 4.1.0.2 route add 1.0.0.2/8 -oif=1.0.0.2 1
+
+bgp router 1.0.0.2
+	add peer 2611 4.1.0.2
+	peer 4.1.0.2 next-hop-self
+	peer 4.1.0.2 up
+	exit
+
+bgp router 4.1.0.2
+	add peer 1 1.0.0.2
+	peer 1.0.0.2 next-hop-self
+	peer 1.0.0.2 up
+	exit
 
 #GEANT CERN
 net add link 4.0.0.3 4.200.0.1
@@ -418,11 +566,35 @@ net add link 4.0.0.3 4.200.0.1
 net node 4.0.0.3 route add 4.200.0.1/16 -oif=4.200.0.1 5
 net node 4.200.0.1 route add 4.0.0.3/24 -oif=4.0.0.3 5
 
+bgp router 4.0.0.3
+	add peer 201 4.200.0.1
+	peer 4.200.0.1 next-hop-self
+	peer 4.200.0.1 up
+	exit
+
+bgp router 4.200.0.1
+	add peer 20965 4.0.0.3
+	peer 4.0.0.3 next-hop-self
+	peer 4.0.0.3 up
+	exit
+
 #abilene CERN
 net add link 3.0.0.3 4.200.0.1
 
 net node 3.0.0.3 route add 4.200.0.1/16 -oif=4.200.0.1 55
 net node 4.200.0.1 route add 3.0.0.3/24 -oif=3.0.0.3 55
+
+bgp router 3.0.0.3
+	add peer 201 4.200.0.1
+	peer 4.200.0.1 next-hop-self
+	peer 4.200.0.1 up
+	exit
+
+bgp router 4.200.0.1
+	add peer 11537 3.0.0.3
+	peer 3.0.0.3 next-hop-self
+	peer 3.0.0.3 up
+	exit
 
 #abilene ucla
 net add link 3.0.0.2 3.1.0.1
@@ -434,6 +606,27 @@ net node 3.0.0.2 route add 3.1.0.2/16 -oif=3.1.0.2 1
 net node 3.1.0.1 route add 3.0.0.2/24 -oif=3.0.0.2 1
 net node 3.1.0.2 route add 3.0.0.2/24 -oif=3.0.0.2 1
 
+bgp router 3.0.0.2
+	add peer 52 3.1.0.1
+	peer 3.1.0.1 next-hop-self
+	peer 3.1.0.1 up
+	add peer 52 3.1.0.2
+	peer 3.1.0.2 next-hop-self
+	peer 3.1.0.2 up
+	exit
+
+bgp router 3.1.0.1
+	add peer 11537 3.0.0.2
+	peer 3.0.0.2 next-hop-self
+	peer 3.0.0.2 up
+	exit
+
+bgp router 3.1.0.2
+	add peer 11537 3.0.0.2
+	peer 3.0.0.2 next-hop-self
+	peer 3.0.0.2 up
+	exit
+
 #abilene geant
 net add link 3.0.0.1 4.0.0.1
 net add link 3.0.0.3 4.0.0.3
@@ -443,6 +636,30 @@ net node 3.0.0.3 route add 4.0.0.3/24 -oif=4.0.0.3 50
 
 net node 4.0.0.1 route add 3.0.0.1/24 -oif=3.0.0.1 60
 net node 4.0.0.3 route add 3.0.0.3/24 -oif=3.0.0.3 50
+
+bgp router 3.0.0.1
+	add peer 20965 4.0.0.1
+	peer 4.0.0.1 next-hop-self
+	peer 4.0.0.1 up
+	exit
+
+bgp router 3.0.0.3
+	add peer 20965 4.0.0.3
+	peer 4.0.0.3 next-hop-self
+	peer 4.0.0.3 up
+	exit
+
+bgp router 4.0.0.1
+	add peer 11537 3.0.0.1
+	peer 3.0.0.1 next-hop-self
+	peer 3.0.0.1 up
+	exit
+
+bgp router 4.0.0.3
+	add peer 11537 3.0.0.3
+	peer 3.0.0.3 next-hop-self
+	peer 3.0.0.3 up
+	exit
 
 #geant belnet 
 net add link 4.0.0.3 4.1.0.1
@@ -454,6 +671,30 @@ net node 4.0.0.4 route add 4.1.0.2/24 -oif=4.1.0.2 5
 net node 4.1.0.1 route add 4.0.0.3/24 -oif=4.0.0.3 5
 net node 4.1.0.2 route add 4.0.0.4/24 -oif=4.0.0.4 5
 
+bgp router 4.0.0.3
+	add peer 2611 4.1.0.1
+	peer 4.1.0.1 next-hop-self
+	peer 4.1.0.1 up
+	exit
+
+bgp router 4.0.0.4
+	add peer 2611 4.1.0.2
+	peer 4.1.0.2 next-hop-self
+	peer 4.1.0.2 up
+	exit
+
+bgp router 4.1.0.1
+	add peer 20965 4.0.0.3
+	peer 4.0.0.3 next-hop-self
+	peer 4.0.0.3 up
+	exit
+
+bgp router 4.1.0.2
+	add peer 20965 4.0.0.4
+	peer 4.0.0.4 next-hop-self
+	peer 4.0.0.4 up
+	exit
+
 #belnet UCL
 net add link 4.1.0.1 130.104.0.1
 net add link 4.1.0.2 130.104.0.2
@@ -463,6 +704,30 @@ net node 4.1.0.2 route add 130.104.0.2/16 -oif=130.104.0.2 1
 
 net node 130.104.0.1 route add 4.1.0.1/24 -oif=4.1.0.1 1
 net node 130.104.0.2 route add 4.1.0.2/24 -oif=4.1.0.2 1
+
+bgp router 4.1.0.1
+	add peer 65535 130.104.0.1
+	peer 130.104.0.1 next-hop-self
+	peer 130.104.0.1 up
+	exit
+
+bgp router 4.1.0.2
+	add peer 65535 130.104.0.2
+	peer 130.104.0.2 next-hop-self
+	peer 130.104.0.2 up
+	exit
+
+bgp router 130.104.0.1
+	add peer 2611 4.1.0.1
+	peer 4.1.0.1 next-hop-self
+	peer 4.1.0.1 up
+	exit
+
+bgp router 130.104.0.2
+	add peer 2611 4.1.0.2
+	peer 4.1.0.2 next-hop-self
+	peer 4.1.0.2 up
+	exit
 
 #belnet ulg 
 net add link 4.1.0.1 139.165.0.1
@@ -474,6 +739,29 @@ net node 4.1.0.2 route add 139.165.0.2/16 -oif=139.165.0.2 1
 net node 139.165.0.1 route add 4.1.0.1/24 -oif=4.1.0.1 1
 net node 139.165.0.2 route add 4.1.0.2/24 -oif=4.1.0.2 1
 
+bgp router 4.1.0.1
+	add peer 65534 139.165.0.1
+	peer 139.165.0.1 next-hop-self
+	peer 139.165.0.1 up
+	exit
+
+bgp router 4.1.0.2
+	add peer 65534 139.165.0.2
+	peer 139.165.0.2 next-hop-self
+	peer 139.165.0.2 up
+	exit
+
+bgp router 139.165.0.1
+	add peer 2611 4.1.0.1
+	peer 4.1.0.1 next-hop-self
+	peer 4.1.0.1 up
+	exit
+
+bgp router 139.165.0.2
+	add peer 2611 4.1.0.2
+	peer 4.1.0.2 next-hop-self
+	peer 4.1.0.2 up
+	exit
 
 #On ajoute une des deux addresses et on advertise les deux plus tard
 
