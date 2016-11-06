@@ -27,7 +27,7 @@ net add link 2.0.0.4 2.0.0.2
 net add link 2.0.0.4 2.0.0.3
 
 net add domain 2 igp
-net node 2.0.0.1 domain 2
+net node 2.0.0.1 domain 
 net node 2.0.0.2 domain 2
 net node 2.0.0.3 domain 2
 net node 2.0.0.4 domain 2
@@ -114,7 +114,7 @@ net node 139.165.0.1 domain 65534
 net node 139.165.0.2 domain 65534
 
 
-#Liens entre domaines 
+#Liens entre domaines + poids
 
 # big => spring
 net add link 1.0.0.1 2.0.0.1
@@ -122,42 +122,98 @@ net add link 1.0.0.2 2.0.0.2
 net add link 1.0.0.3 2.0.0.3
 net add link 1.0.0.4 2.0.0.4
 
+net node 1.0.0.1 route add 2.0.0.1/8 -oif=2.0.0.1 65
+net node 1.0.0.2 route add 2.0.0.2/8 -oif=2.0.0.2 70
+net node 1.0.0.3 route add 2.0.0.3/8 -oif=2.0.0.3 75
+net node 1.0.0.4 route add 2.0.0.4/8 -oif=2.0.0.4 70
+
+net node 2.0.0.1 route add 1.0.0.1/8 -oif=1.0.0.1 65
+net node 2.0.0.2 route add 1.0.0.2/8 -oif=1.0.0.2 70
+net node 2.0.0.3 route add 1.0.0.3/8 -oif=1.0.0.3 75
+net node 2.0.0.4 route add 1.0.0.4/8 -oif=1.0.0.4 70
+
 #spring icomp
 net add link 2.0.0.1 2.1.0.1
 net add link 2.0.0.2 2.1.0.1
 net add link 2.0.0.3 2.1.0.1
 
+net node 2.0.0.1 route add 2.1.0.1/16 -oif=2.1.0.1 2
+net node 2.0.0.2 route add 2.1.0.1/16 -oif=2.1.0.1 2
+net node 2.0.0.3 route add 2.1.0.1/16 -oif=2.1.0.1 8
+
+net node 2.1.0.1 route add 2.0.0.1/8 -oif=2.0.0.1 2
+net node 2.1.0.1 route add 2.0.0.2/8 -oif=2.0.0.2 2
+net node 2.1.0.1 route add 2.0.0.3/8 -oif=2.0.0.3 8
+
 #Spring abilene
 net add link 2.0.0.3 3.0.0.1
 
+net node 2.0.0.3 route add 3.0.0.1/24 -oif=3.0.0.1 1
+net node 3.0.0.1 route add 2.0.0.3/8 -oif=2.0.0.3 1
+
 #Spring ucla
 net add link 2.0.0.3 3.1.0.1
+
+net node 2.0.0.3 route add 3.1.0.1/16 -oif=3.1.0.1 1
+net node 3.1.0.1 route add 2.0.0.3/8 -oif=2.0.0.3 1
 
 #BigCarrier geant
 net add link 1.0.0.3 4.0.0.1
 net add link 1.0.0.4 4.0.0.1
 net add link 1.0.0.1 4.0.0.2
 
+net node 1.0.0.1 route add 4.0.0.2/24 -oif=4.0.0.2 1
+net node 1.0.0.3 route add 4.0.0.1/24 -oif=4.0.0.1 1
+net node 1.0.0.4 route add 4.0.0.1/24 -oif=4.0.0.1 1
+
+net node 4.0.0.2 route add 1.0.0.1/8 -oif=1.0.0.1 1
+net node 4.0.0.1 route add 1.0.0.3/8 -oif=1.0.0.3 1
+net node 4.0.0.1 route add 1.0.0.4/8 -oif=1.0.0.4 1
+
 #BigCarrier belnet
 net add link 1.0.0.2 4.1.0.2
+
+net node 1.0.0.2 route add 4.1.0.2/24 -oif=4.1.0.2 1
+net node 4.1.0.2 route add 1.0.0.2/8 -oif=1.0.0.2 1
 
 #GEANT CERN
 net add link 4.0.0.3 4.200.0.1
 
+net node 4.0.0.3 route add 4.200.0.1/16 -oif=4.200.0.1 5
+net node 4.200.0.1 route add 4.0.0.3/24 -oif=4.0.0.3 5
+
 #abilene CERN
 net add link 3.0.0.3 4.200.0.1
+
+net node 3.0.0.3 route add 4.200.0.1/16 -oif=4.200.0.1 55
+net node 4.200.0.1 route add 3.0.0.3/24 -oif=3.0.0.3 55
 
 #abilene ucla
 net add link 3.0.0.2 3.1.0.1
 net add link 3.0.0.2 3.1.0.2
 
+net node 3.0.0.2 route add 3.1.0.1/16 -oif=3.1.0.1 1
+net node 3.0.0.2 route add 3.1.0.2/16 -oif=3.1.0.2 1
+
+net node 3.1.0.1 route add 3.0.0.2/24 -oif=3.0.0.2 1
+net node 3.1.0.2 route add 3.0.0.2/24 -oif=3.0.0.2 1
+
 #abilene geant
 net add link 3.0.0.1 4.0.0.1
 net add link 3.0.0.3 4.0.0.3
 
+net node 3.0.0.1 route add 4.0.0.1/24 -oif=4.0.0.1 60
+net node 3.0.0.3 route add 4.0.0.3/24 -oif=4.0.0.3 50
+
+net node 4.0.0.1 route add 3.0.0.1/24 -oif=3.0.0.1 60
+net node 4.0.0.3 route add 3.0.0.3/24 -oif=3.0.0.3 50
+
 #geant belnet 
 net add link 4.0.0.3 4.1.0.1
 net add link 4.0.0.4 4.1.0.2
+#todo
+net node 4.0.0.1 route add 3.0.0.1/24 -oif=3.0.0.1 60
+net node 4.0.0.3 route add 3.0.0.3/24 -oif=3.0.0.3 50
 
 #belnet UCL
 net add link 4.1.0.1 130.104.0.1
