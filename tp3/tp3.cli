@@ -416,6 +416,71 @@ bgp router 2.0.0.4
 	peer 1.0.0.4 up
 	exit
 
+#On marque les routes apprises de l'autre domaine
+bgp router 1.0.0.1 
+	peer 2.0.0.1
+	filter in
+	add-rule
+		match "any"
+		action "community add 2:1"
+	exit
+
+bgp router 1.0.0.2 
+	peer 2.0.0.2
+	filter in
+	add-rule
+		match "any"
+		action "community add 2:2"
+	exit
+
+bgp router 1.0.0.3
+	peer 2.0.0.3
+	filter in
+	add-rule
+		match "any"
+		action "community add 2:3"
+	exit
+
+bgp router 1.0.0.4
+	peer 2.0.0.4
+	filter in
+	add-rule
+		match "any"
+		action "community add 2:4"
+	exit
+
+bgp router 2.0.0.1 
+	peer 1.0.0.1
+	filter in
+	add-rule
+		match "any"
+		action "community add 1:1"
+	exit
+
+bgp router 2.0.0.2 
+	peer 1.0.0.2
+	filter in
+	add-rule
+		match "any"
+		action "community add 1:2"
+	exit
+
+bgp router 2.0.0.3
+	peer 1.0.0.3
+	filter in
+	add-rule
+		match "any"
+		action "community add 1:3"
+	exit
+
+bgp router 2.0.0.4
+	peer 1.0.0.4
+	filter in
+	add-rule
+		match "any"
+		action "community add 1:4"
+	exit
+
 #spring icomp
 net add link 2.0.0.1 2.1.0.1
 net add link 2.0.0.2 2.1.0.1
@@ -447,7 +512,6 @@ bgp router 2.0.0.3
 	peer 2.1.0.1 up
 	exit
 
-#TODO notation marche ? peut on faire plusieur fois le même routeur ?
 bgp router 2.1.0.1
 	add peer 2 2.0.0.1
 	peer 2.0.0.1 next-hop-self
@@ -458,6 +522,55 @@ bgp router 2.1.0.1
 	add peer 2 2.0.0.3
 	peer 2.0.0.3 next-hop-self
 	peer 2.0.0.3 up
+	exit
+
+ #marquer les routes recues de 2.1.0.1 (as 200)
+bgp router 2.0.0.1 
+	peer 2.1.0.1
+	filter in
+	add-rule
+		match "any"
+		action "community add 200:1"
+	exit
+
+bgp router 2.0.0.2 
+	peer 2.1.0.1
+	filter in
+	add-rule
+		match "any"
+		action "community add 200:1"
+	exit
+
+bgp router 2.0.0.3 
+	peer 2.1.0.1
+	filter in
+	add-rule
+		match "any"
+		action "community add 200:1"
+	exit
+
+bgp router 2.1.0.1
+	peer 2.0.0.1
+	filter in
+	add-rule
+		match "any"
+		action "community add 2:1"
+	exit
+
+bgp router 2.1.0.1
+	peer 2.0.0.2 
+	filter in
+	add-rule
+		match "any"
+		action "community add 2:2"
+	exit
+
+bgp router 2.1.0.1
+	peer 2.0.0.3 
+	filter in
+	add-rule
+		match "any"
+		action "community add 2:3"
 	exit
 
 #Spring abilene
@@ -478,6 +591,41 @@ bgp router 3.0.0.1
 	peer 2.0.0.3 up
 	exit
 
+#Marquer les routes prevenant 
+bgp router 2.0.0.3
+	peer 3.0.0.1 
+	filter in
+	add-rule
+		match "any"
+		action "community add 11537:1"
+	exit
+
+bgp router 3.0.0.1
+	peer 2.0.0.3
+	filter in
+	add-rule
+		match "any"
+		action "community add 2:3"
+	exit
+
+
+#On n'annonce pas les routes apprises de geant (r1 et r3) sinon on se fait arnaquer
+bgp router 3.0.0.1
+	peer 2.0.0.3
+	filter out
+	add-rule
+		match "community is 20965:1"
+		action "deny"
+	exit
+
+bgp router 3.0.0.1
+	peer 2.0.0.3
+	filter out
+	add-rule
+		match "community is 20965:3"
+		action "deny"
+	exit
+
 #Spring ucla
 net add link 2.0.0.3 3.1.0.1
 
@@ -494,6 +642,34 @@ bgp router 3.1.0.1
 	add peer 2 2.0.0.3
 	peer 2.0.0.3 next-hop-self
 	peer 2.0.0.3 up
+	exit
+
+#on marque les routes, c'est du provider custumer normal
+bgp router 2.0.0.3
+	peer 3.1.0.1
+	filter in
+	add-rule
+		match "any"
+		action "community add 52:1"
+	exit
+
+bgp router 3.1.0.1
+	peer 2.0.0.3
+	filter in
+	add-rule
+		match "any"
+		action "community add 2:3"
+	exit
+
+#eviter que spring envoie a ucla via abilene donc ne pas annoncer les routes apprises de abilene a spring
+#eviter que ucla donne à spring ses routes vers abi sinon spring pourra passer par ucla pour aller a abi
+#donc on partagre pas les routes apprises de r2 de abi
+bgp router 3.1.0.1
+	peer 2.0.0.3
+	filter out
+	add-rule
+		match "community is 11537:2"
+		action "deny"
 	exit
 
 #BigCarrier geant
@@ -542,6 +718,105 @@ bgp router 4.0.0.2
 	peer 1.0.0.1 up
 	exit
 
+#on marque les routes, c'est du provider custumer normal
+bgp router 1.0.0.1
+	peer 4.0.0.2
+	filter in
+	add-rule
+		match "any"
+		action "community add 20965:2"
+	exit
+
+bgp router 1.0.0.3
+	peer 4.0.0.1
+	filter in
+	add-rule
+		match "any"
+		action "community add 20965:1"
+	exit
+
+bgp router 1.0.0.4
+	peer 4.0.0.1
+	filter in
+	add-rule
+		match "any"
+		action "community add 20965:1"
+	exit
+
+#dans les deux sens
+bgp router 4.0.0.2
+	peer 1.0.0.1 
+	filter in
+	add-rule
+		match "any"
+		action "community add 1:1"
+	exit
+
+bgp router 4.0.0.1
+	peer 1.0.0.3
+	filter in
+	add-rule
+		match "any"
+		action "community add 1:3"
+	exit
+
+bgp router 4.0.0.1
+	peer 1.0.0.4
+	filter in
+	add-rule
+		match "any"
+		action "community add 1:4"
+	exit
+
+#On veut pas annoncer les routes de abielne sunin big carrier peut passer par geant pour atteindre abilene donc là on utilise la relation cutumer et pas peer donc on fait payer giant et abi paye pas pcq çapasse apr son peer
+
+bgp router 4.0.0.2
+	peer 1.0.0.1
+	filter out
+	add-rule
+		match "community is 11537:1"
+		action "deny"
+	exit
+
+bgp router 4.0.0.2
+	peer 1.0.0.1
+	filter out
+	add-rule
+		match "community is 11537:3"
+		action "deny"
+	exit
+
+bgp router 4.0.0.1
+	peer 1.0.0.3
+	filter out
+	add-rule
+		match "community is 11537:1"
+		action "deny"
+	exit
+
+bgp router 4.0.0.1
+	peer 1.0.0.3
+	filter out
+	add-rule
+		match "community is 11537:3"
+		action "deny"
+	exit
+
+bgp router 4.0.0.1
+	peer 1.0.0.4
+	filter out
+	add-rule
+		match "community is 11537:1"
+		action "deny"
+	exit
+
+bgp router 4.0.0.1
+	peer 1.0.0.4
+	filter out
+	add-rule
+		match "community is 11537:3"
+		action "deny"
+	exit
 #BigCarrier belnet
 net add link 1.0.0.2 4.1.0.2
 
