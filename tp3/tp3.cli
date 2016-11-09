@@ -1372,7 +1372,7 @@ bgp router 130.104.0.1
 	filter in
 	add-rule
 		match "any"
-		action "community add 20965:1"
+		action "community add 2611:1"
 	exit
 
 bgp router 130.104.0.2
@@ -1380,7 +1380,7 @@ bgp router 130.104.0.2
 	filter in
 	add-rule
 		match "any"
-		action "community add 20965:2"
+		action "community add 2611:2"
 	exit
 #belnet ulg 
 net add link 4.1.0.1 139.165.0.1
@@ -1438,7 +1438,7 @@ bgp router 139.165.0.1
 	filter in
 	add-rule
 		match "any"
-		action "community add 20965:1"
+		action "community add 2611:1"
 	exit
 
 bgp router 139.165.0.2
@@ -1446,7 +1446,7 @@ bgp router 139.165.0.2
 	filter in
 	add-rule
 		match "any"
-		action "community add 20965:2"
+		action "community add 2611:2"
 	exit
 
 #On ajoute une des deux addresses et on advertise les deux plus tard
