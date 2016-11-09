@@ -352,7 +352,10 @@ bgp router 139.165.0.2 add network 139.165.0.0/16
 
 #Liens entre domaines routes statiques
 
-# big => spring
+#---------------------------------------------------------#
+#-------------------BigCarrier<=>Spring-------------------#
+#---------------------------------------------------------#
+
 net add link 1.0.0.1 2.0.0.1
 net add link 1.0.0.2 2.0.0.2
 net add link 1.0.0.3 2.0.0.3
@@ -416,7 +419,8 @@ bgp router 2.0.0.4
 	peer 1.0.0.4 up
 	exit
 
-#On marque les routes apprises de l'autre domaine
+#Marquage des routes apprises, ils ne sont pas customers donc pas besoin de filtres out
+
 bgp router 1.0.0.1 
 	peer 2.0.0.1
 	filter in
@@ -481,7 +485,10 @@ bgp router 2.0.0.4
 		action "community add 1:4"
 	exit
 
-#spring icomp
+#---------------------------------------------------------#
+#--------------------Spring<=>iCompany--------------------#
+#---------------------------------------------------------#
+
 net add link 2.0.0.1 2.1.0.1
 net add link 2.0.0.2 2.1.0.1
 net add link 2.0.0.3 2.1.0.1
@@ -524,7 +531,8 @@ bgp router 2.1.0.1
 	peer 2.0.0.3 up
 	exit
 
- #marquer les routes recues de 2.1.0.1 (as 200)
+#Marquage des routes apprises, pas de filtre out car c'est un puit
+
 bgp router 2.0.0.1 
 	peer 2.1.0.1
 	filter in
@@ -573,7 +581,10 @@ bgp router 2.1.0.1
 		action "community add 2:3"
 	exit
 
-#Spring abilene
+#---------------------------------------------------------#
+#---------------------Spring<=>Abilene--------------------#
+#---------------------------------------------------------#
+
 net add link 2.0.0.3 3.0.0.1
 
 net node 2.0.0.3 route add 3.0.0.1/24 -oif=3.0.0.1 1
@@ -609,7 +620,7 @@ bgp router 3.0.0.1
 	exit
 
 
-#On n'annonce pas les routes apprises de geant (r1 et r3) sinon on se fait arnaquer
+#On n'annonce pas les routes apprises de GEANT sinon Spring peut faire passer son traffic vers GEANT par Abilene
 bgp router 3.0.0.1
 	peer 2.0.0.3
 	filter out
@@ -626,7 +637,10 @@ bgp router 3.0.0.1
 		action "deny"
 	exit
 
-#Spring ucla
+#---------------------------------------------------------#
+#----------------------Spring<=>UCLA----------------------#
+#---------------------------------------------------------#
+
 net add link 2.0.0.3 3.1.0.1
 
 net node 2.0.0.3 route add 3.1.0.1/16 -oif=3.1.0.1 1
@@ -644,7 +658,8 @@ bgp router 3.1.0.1
 	peer 2.0.0.3 up
 	exit
 
-#on marque les routes, c'est du provider custumer normal
+#Marquage des routes
+
 bgp router 2.0.0.3
 	peer 3.1.0.1
 	filter in
@@ -661,9 +676,8 @@ bgp router 3.1.0.1
 		action "community add 2:3"
 	exit
 
-#eviter que spring envoie a ucla via abilene donc ne pas annoncer les routes apprises de abilene a spring
-#eviter que ucla donne à spring ses routes vers abi sinon spring pourra passer par ucla pour aller a abi
-#donc on partagre pas les routes apprises de r2 de abi
+#On n'annonce pas à Spring les routes apprises de Abilene sinon Spring peut passer par UCLA pour atteindre Abilene
+
 bgp router 3.1.0.1
 	peer 2.0.0.3
 	filter out
@@ -672,7 +686,10 @@ bgp router 3.1.0.1
 		action "deny"
 	exit
 
-#BigCarrier geant
+#---------------------------------------------------------#
+#--------------------BigCarrier<=>GEANT-------------------#
+#---------------------------------------------------------#
+
 net add link 1.0.0.3 4.0.0.1
 net add link 1.0.0.4 4.0.0.1
 net add link 1.0.0.1 4.0.0.2
@@ -718,7 +735,8 @@ bgp router 4.0.0.2
 	peer 1.0.0.1 up
 	exit
 
-#on marque les routes, c'est du provider custumer normal
+#Marquage des routes
+
 bgp router 1.0.0.1
 	peer 4.0.0.2
 	filter in
@@ -768,7 +786,7 @@ bgp router 4.0.0.1
 		action "community add 1:4"
 	exit
 
-#On veut pas annoncer les routes de abielne sunin big carrier peut passer par geant pour atteindre abilene donc là on utilise la relation cutumer et pas peer donc on fait payer giant et abi paye pas pcq çapasse apr son peer
+#On n'annonce pas les routes apprises d'abilène sinon car sinon abilene - bigCarrier peut passer par GEANT
 
 bgp router 4.0.0.2
 	peer 1.0.0.1
@@ -819,7 +837,9 @@ bgp router 4.0.0.1
 	exit
 
 
-#BigCarrier belnet
+#---------------------------------------------------------#
+#-------------------BigCarrier<=>BELNET-------------------#
+#---------------------------------------------------------#
 
 
 net add link 1.0.0.2 4.1.0.2
@@ -857,7 +877,7 @@ bgp router 1.0.0.2
 		action "community add 2611:2"
 	exit
 
-#on ne va pas donner les routes apprises de geant a bigcarrier sinon bigcarrier peut passer par nous pour atteigne geant
+#On n'annonce pas les routes de GEANT sinon la relation BigCarrier - GEANT peut passer par Belnet et donc Belnet paye au lieu de GEANT
 
 bgp router 4.1.0.2
 	peer 1.0.0.2
@@ -875,7 +895,10 @@ bgp router 4.1.0.2
 		action "deny"
 	exit
 
-#GEANT CERN
+#---------------------------------------------------------#
+#----------------------GEANT<=>CERN-----------------------#
+#---------------------------------------------------------#
+
 net add link 4.0.0.3 4.200.0.1
 
 net node 4.0.0.3 route add 4.200.0.1/16 -oif=4.200.0.1 5
@@ -893,7 +916,8 @@ bgp router 4.200.0.1
 	peer 4.0.0.3 up
 	exit
 
-#marquage
+#marquage des routes
+
 bgp router 4.0.0.3
 	peer 4.200.0.1
 	filter in
@@ -910,7 +934,7 @@ bgp router 4.200.0.1
 		action "community add 20965:3"
 	exit
 
-#ne pas donner les routes apprises de abilene a geant sinon geant passe par nous au lieu de son lien pair avec aboilene
+#Ne pas annoncer les routes apprises d'abilene sinon la relation GEANT-Abilene peut passer par CERN
 
 bgp router 4.200.0.1
 	peer 4.0.0.3 
@@ -920,7 +944,10 @@ bgp router 4.200.0.1
 		action "deny"
 	exit
 
-#abilene CERN
+#---------------------------------------------------------#
+#----------------------Abilene<=>CERN---------------------#
+#---------------------------------------------------------#
+
 net add link 3.0.0.3 4.200.0.1
 
 net node 3.0.0.3 route add 4.200.0.1/16 -oif=4.200.0.1 55
@@ -938,7 +965,8 @@ bgp router 4.200.0.1
 	peer 3.0.0.3 up
 	exit
 
-#marquage
+#marquage des routes
+
 bgp router 3.0.0.3
 	peer 4.200.0.1
 	filter in
@@ -955,7 +983,8 @@ bgp router 4.200.0.1
 		action "community add 11537:3"
 	exit
 
-#pareil que geant cern
+#Comme pour la relation GEANT-CERN on doit empècher de que le traffic Abilene-GEANT passe par CERN
+#TODO eviter d'annoncer les routes commerciales apprises par mon provider ? ie pas de traffic commercial pour cern ???
 
 bgp router 4.200.0.1
 	peer 3.0.0.3 
@@ -965,7 +994,10 @@ bgp router 4.200.0.1
 		action "deny"
 	exit
 
-#abilene ucla
+#---------------------------------------------------------#
+#----------------------Abilene<=>UCLA---------------------#
+#---------------------------------------------------------#
+
 net add link 3.0.0.2 3.1.0.1
 net add link 3.0.0.2 3.1.0.2
 
@@ -996,7 +1028,7 @@ bgp router 3.1.0.2
 	peer 3.0.0.2 up
 	exit
 
-#marquage
+#marquage des routes
 
 bgp router 3.0.0.2
 	peer 3.1.0.1
@@ -1029,8 +1061,11 @@ bgp router 3.1.0.2
 		match "any"
 		action "community add 11537:2"
 	exit
-#ne pas donner a abi les routes apprises de spring sinon spring passe par nous pour aller a abi et abi passe par nous pour aller a spring
-#abi doit pas donner ses routes vers spring a ucla car il donne que de la co non commerciale7
+
+#TODO
+#UCLA ne doit pas annoncer ses routes apprises de Spring à Abilene sinon la relation Abilene-Spring peut se faire via UCLA
+#Abilene ne doit pas annoncer ses routes vers Spring à UCLA car il lui donne du traffic non commercial
+
 bgp router 3.1.0.1
 	peer 3.0.0.2
 	filter out
@@ -1063,7 +1098,10 @@ bgp router 3.0.0.2
 		action "deny"
 	exit
 
-#abilene geant
+#---------------------------------------------------------#
+#----------------------Abilene<=>GEANT--------------------#
+#---------------------------------------------------------#
+
 net add link 3.0.0.1 4.0.0.1
 net add link 3.0.0.3 4.0.0.3
 
@@ -1131,7 +1169,7 @@ bgp router 4.0.0.3
 		action "community add 11537:3"
 	exit
 
-#On se donne pas les routes de nos providers sinon l'un passe par l'autre pour atteindre l'inter de sprijg et bigcarrier
+#On n'annonce pas les routes vers nos providers sinon l'un passe par l'autre pour atteindre Spring et BigCarrier
 
 
 bgp router 4.0.0.1
@@ -1150,11 +1188,27 @@ bgp router 4.0.0.1
 		action "deny"
 	exit
 
+bgp router 4.0.0.1
+	peer 3.0.0.1
+	filter out
+	add-rule
+		match "community is 1:1"
+		action "deny"
+	exit
+
 bgp router 4.0.0.3
 	peer 3.0.0.3
 	filter out
 	add-rule
 		match "community is 1:3"
+		action "deny"
+	exit
+
+bgp router 4.0.0.3
+	peer 3.0.0.3
+	filter out
+	add-rule
+		match "community is 1:1"
 		action "deny"
 	exit
 
@@ -1182,7 +1236,10 @@ bgp router 3.0.0.3
 		action "deny"
 	exit
 
-#geant belnet 
+#---------------------------------------------------------#
+#-----------------------GEANT<=>BELNET--------------------#
+#---------------------------------------------------------#
+
 net add link 4.0.0.3 4.1.0.1
 net add link 4.0.0.4 4.1.0.2
 
@@ -1216,7 +1273,7 @@ bgp router 4.1.0.2
 	peer 4.0.0.4 up
 	exit
 
-#marquage
+#marquage des routes
 
 bgp router 4.0.0.3
 	peer 4.1.0.1
@@ -1250,7 +1307,9 @@ bgp router  4.1.0.2
 		action "community add 20965:4"
 	exit
 
-#belnet ne donne pas ses routes comm de bigcarrier a geant, geant ne donne pas ses routes commerciales de bigcarrier
+#Belnet n'annonce pas ses routes apprises de BigCarrier à GEANT pour éviter que GEANT-BigCarrier passe par lui.
+#GEANT n'annonce pas ses routes commerciales à Belnet
+#TODO
 
 bgp router 4.1.0.1
 	peer 4.0.0.3
@@ -1316,7 +1375,10 @@ bgp router 4.0.0.4
 		action "deny"
 	exit
 
-#belnet UCL
+#---------------------------------------------------------#
+#-------------------------Belnet<=>UCL--------------------#
+#---------------------------------------------------------#
+
 net add link 4.1.0.1 130.104.0.1
 net add link 4.1.0.2 130.104.0.2
 
@@ -1350,7 +1412,7 @@ bgp router 130.104.0.2
 	peer 4.1.0.2 up
 	exit
 
-#marquage
+#marquage des routes
 
 bgp router 4.1.0.1
 	peer 130.104.0.1
@@ -1382,7 +1444,11 @@ bgp router 130.104.0.2
 		match "any"
 		action "community add 2611:2"
 	exit
-#belnet ulg 
+
+#---------------------------------------------------------#
+#-------------------------Belnet<=>ULG--------------------#
+#---------------------------------------------------------#
+
 net add link 4.1.0.1 139.165.0.1
 net add link 4.1.0.2 139.165.0.2
 
@@ -1416,7 +1482,7 @@ bgp router 139.165.0.2
 	peer 4.1.0.2 up
 	exit
 
-#marquage
+#marquage des routes
 
 bgp router 4.1.0.1
 	peer 139.165.0.1
