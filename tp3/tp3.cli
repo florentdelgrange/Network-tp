@@ -271,7 +271,6 @@ bgp router 3.1.0.2
 	peer 3.1.0.1 up
 	exit
 
-#TODO annoncer le deuxième prefixe atteignable ici ?
 bgp router 3.1.0.1 add network 3.1.0.0/16
 bgp router 3.1.0.2 add network 3.1.0.0/16
 bgp router 3.1.0.1 add network 2.2.1.0/24
@@ -285,7 +284,6 @@ net node 4.200.0.1 domain 201
 
 bgp add router 201 4.200.0.1
 
-#TODO same
 bgp router 4.200.0.1 add network 4.200.0.0/16
 bgp router 4.200.0.1 add network 3.200.0.0/16
 
@@ -314,7 +312,6 @@ bgp router 4.1.0.2
 	peer 4.1.0.1 up
 	exit
 
-#TODO same
 bgp router 4.1.0.1 add network 4.1.0.0/24
 bgp router 4.1.0.2 add network 4.1.0.0/24
 bgp router 4.1.0.1 add network 1.1.0.0/24
@@ -997,13 +994,21 @@ bgp router 4.200.0.1
 	exit
 
 #Comme pour la relation GEANT-CERN on doit empècher de que le traffic Abilene-GEANT passe par CERN
-#TODO eviter d'annoncer les routes commerciales apprises par mon provider ? ie pas de traffic commercial pour cern ???
+#Abilene n'annonce pas de routes commerciales à CERN
 
 bgp router 4.200.0.1
 	peer 3.0.0.3 
 	filter out
 	add-rule
 		match "community is 20965:3"
+		action "deny"
+	exit
+
+bgp router 3.0.0.3 
+	peer 4.200.0.1
+	filter out
+	add-rule
+		match "community is 2:3"
 		action "deny"
 	exit
 
@@ -1075,7 +1080,6 @@ bgp router 3.1.0.2
 		action "community add 11537:2"
 	exit
 
-#TODO
 #UCLA ne doit pas annoncer ses routes apprises de Spring à Abilene sinon la relation Abilene-Spring peut se faire via UCLA
 #Abilene ne doit pas annoncer ses routes vers Spring à UCLA car il lui donne du traffic non commercial
 
@@ -1322,13 +1326,12 @@ bgp router  4.1.0.2
 
 #Belnet n'annonce pas ses routes apprises de BigCarrier à GEANT pour éviter que GEANT-BigCarrier passe par lui.
 #GEANT n'annonce pas ses routes commerciales à Belnet
-#TODO
 
 bgp router 4.1.0.1
 	peer 4.0.0.3
 	filter out
 	add-rule
-		match "community is 2611:2"
+		match "community is 1:2"
 		action "deny"
 	exit
 
@@ -1336,7 +1339,7 @@ bgp router 4.1.0.2
 	peer 4.0.0.4
 	filter out
 	add-rule
-		match "community is 2611:2"
+		match "community is 1:2"
 		action "deny"
 	exit
 
@@ -1530,20 +1533,7 @@ bgp router 139.165.0.2
 		action "community add 2611:2"
 	exit
 
-#On ajoute une des deux addresses et on advertise les deux plus tard
-
-
-
-
-sim run 
-
-
-
-
-
-
-
-
+sim run
 
 
 
